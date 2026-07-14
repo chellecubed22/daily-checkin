@@ -1,38 +1,24 @@
-# Daily Check-In
+# Daily wellbeing check-in (research diary)
 
-## Check in here (every day)
+## Submit here
 
 ### **https://chellecubed22.github.io/daily-checkin/**
 
-Takes about **60 seconds**. Phone-friendly.
+~1–2 minutes · voluntary · not medical care
 
-**What you answer:** energy · mood · sleep · stress · one win · one next step
+### Measures (v2.0)
+- Participant ID (stable nickname)
+- Sleep duration + sleep quality
+- Energy / alertness, mood valence, stress (1–10)
+- Social connection (optional)
+- Unusual day flag, optional notes / next action
+- Consent checkbox
 
----
-
-## About
-
-Optional daily check-in for a small personal project run by **Michelle D. Williams**.
-
-- Not medical advice  
-- Not tracking your location or accounts  
-- You only send what you type when you hit **Send**  
-- Stop anytime  
-
----
-
-## Share this
-
+### Share text
 ```text
-Daily check-in (1 minute):
+Daily wellbeing research diary (~1–2 min):
 https://chellecubed22.github.io/daily-checkin/
 
-Energy, mood, sleep, stress, one win, one next step.
-Optional. Not medical. Stop anytime.
+Voluntary self-report (sleep, energy, mood, stress). Not medical care.
+Use the same participant ID each day. Stop anytime.
 ```
-
----
-
-## Repo
-
-Source for the public page. Submissions go to the project inbox for logging (voluntary responses only).

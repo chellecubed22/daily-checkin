@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Daily Check-In</title>
+  <title>Daily Wellbeing Check-In — Research Diary</title>
   <style>
     :root {
       --bg: #0f1419;
@@ -12,46 +12,89 @@
       --muted: #8b9bb0;
       --accent: #3d9cf0;
       --good: #3ecf8e;
+      --border: #2a3a4d;
     }
     * { box-sizing: border-box; }
     body {
       margin: 0;
-      font-family: system-ui, Segoe UI, sans-serif;
+      font-family: system-ui, "Segoe UI", Roboto, sans-serif;
       background: var(--bg);
       color: var(--text);
       line-height: 1.45;
       padding: 1.25rem;
-      max-width: 440px;
+      max-width: 460px;
       margin-inline: auto;
     }
-    h1 { font-size: 1.4rem; margin: 0 0 0.35rem; }
-    .sub { color: var(--muted); font-size: 0.92rem; margin-bottom: 1.25rem; }
+    h1 { font-size: 1.25rem; margin: 0 0 0.35rem; font-weight: 700; }
+    .sub { color: var(--muted); font-size: 0.88rem; margin: 0 0 1rem; }
+    .consent {
+      background: #141c28;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.85rem 1rem;
+      font-size: 0.82rem;
+      color: #b8c5d4;
+      margin-bottom: 1rem;
+    }
+    .consent strong { color: var(--text); }
     .card {
       background: var(--card);
       border-radius: 12px;
       padding: 1.1rem;
       margin-bottom: 1rem;
     }
+    .section-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--accent);
+      margin: 0 0 0.75rem;
+      font-weight: 700;
+    }
     label {
       display: block;
-      font-size: 0.85rem;
+      font-size: 0.88rem;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+      font-weight: 600;
+    }
+    .hint {
+      display: block;
+      font-size: 0.75rem;
       color: var(--muted);
+      font-weight: 400;
       margin-bottom: 0.35rem;
     }
-    .val { float: right; color: var(--accent); font-weight: 600; }
+    .val { float: right; color: var(--accent); font-weight: 700; font-size: 0.88rem; }
+    .scale-ends {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-top: 0.15rem;
+    }
     input[type="range"] { width: 100%; }
-    input[type="text"], input[type="email"], textarea, select {
+    input[type="text"], textarea, select {
       width: 100%;
       background: #0d1218;
-      border: 1px solid #2a3a4d;
+      border: 1px solid var(--border);
       color: var(--text);
       border-radius: 8px;
       padding: 0.65rem 0.75rem;
       font: inherit;
-      margin-bottom: 0.9rem;
+      margin-bottom: 0.85rem;
     }
-    textarea { min-height: 70px; resize: vertical; }
-    .row { margin-bottom: 0.9rem; }
+    textarea { min-height: 64px; resize: vertical; }
+    .row { margin-bottom: 1rem; }
+    .checkrow {
+      display: flex;
+      gap: 0.6rem;
+      align-items: flex-start;
+      margin: 0.75rem 0 1rem;
+      font-size: 0.82rem;
+      color: #c5d0dc;
+    }
+    .checkrow input { margin-top: 0.2rem; flex-shrink: 0; }
     button {
       width: 100%;
       border: none;
@@ -64,11 +107,7 @@
       color: #041018;
     }
     button:disabled { opacity: 0.6; cursor: wait; }
-    .notice {
-      font-size: 0.82rem;
-      color: var(--muted);
-      margin-top: 1rem;
-    }
+    .notice { font-size: 0.78rem; color: var(--muted); margin-top: 0.85rem; }
     .ok {
       display: none;
       background: #143528;
@@ -82,60 +121,118 @@
   </style>
 </head>
 <body>
-  <h1>Daily Check-In</h1>
-  <p class="sub">
-    About 60 seconds. Optional. Not medical advice. You can stop anytime.
-    Data goes to Michelle for a small personal project only.
-  </p>
+  <h1>Daily wellbeing check-in</h1>
+  <p class="sub">Brief research diary · about 1–2 minutes · same participant ID each day</p>
+
+  <div class="consent">
+    <strong>Consent (please read)</strong><br />
+    This is a <strong>voluntary</strong> daily self-report diary for pattern research.
+    It is <strong>not</strong> medical care, diagnosis, or crisis support.
+    You may stop at any time. Do not submit information you do not want stored.
+    Responses are received by the study lead (Michelle D. Williams) for analysis of
+    self-report trends over time, optionally alongside public environmental context
+    (e.g. weather / space-weather indices). No claim is made that this measures
+    planetary or clinical outcomes.
+  </div>
 
   <div class="ok" id="thanks">
-    <strong>Got it — thank you.</strong><br />
-    Your check-in was sent. See you tomorrow.
+    <strong>Response recorded — thank you.</strong><br />
+    If you are continuing the diary, use the <em>same participant ID</em> tomorrow.
   </div>
 
   <form class="card" id="form" action="https://formsubmit.co/ajax/896b7d364c4afed037328261d1c389e6" method="POST">
-    <!-- FormSubmit controls -->
     <input type="hidden" name="_subject" value="Daily Check-In response" />
     <input type="hidden" name="_template" value="table" />
     <input type="hidden" name="_captcha" value="false" />
     <input type="hidden" name="_honey" value="" />
     <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" />
-
-    <label for="name">Your name or nickname</label>
-    <input type="text" id="name" name="name" required maxlength="80" placeholder="What should we call you?" />
-
-    <div class="row">
-      <label>Energy <span class="val" id="energyVal">5</span></label>
-      <input type="range" id="energy" name="energy" min="1" max="10" value="5" />
-    </div>
-    <div class="row">
-      <label>Mood <span class="val" id="moodVal">5</span></label>
-      <input type="range" id="mood" name="mood" min="1" max="10" value="5" />
-    </div>
-    <div class="row">
-      <label>Sleep last night (hours) <span class="val" id="sleepVal">7</span></label>
-      <input type="range" id="sleep" name="sleep_hours" min="0" max="12" step="0.5" value="7" />
-    </div>
-    <div class="row">
-      <label>Stress <span class="val" id="stressVal">5</span></label>
-      <input type="range" id="stress" name="stress" min="1" max="10" value="5" />
-    </div>
-
-    <label for="win">One win (optional)</label>
-    <input type="text" id="win" name="one_win" maxlength="200" placeholder="Something that went okay..." />
-
-    <label for="next">One useful next step</label>
-    <input type="text" id="next" name="next_step" required maxlength="200" placeholder="One concrete next action..." />
-
-    <label for="notes">Notes (optional)</label>
-    <textarea id="notes" name="notes" maxlength="1000" placeholder="Anything else..."></textarea>
-
+    <input type="hidden" name="form_version" value="2.0-research-diary" />
     <input type="hidden" name="submitted_at_local" id="submitted_at_local" />
     <input type="hidden" name="timezone" id="timezone" />
 
-    <button type="submit" id="submitBtn">Send check-in</button>
+    <p class="section-title">Participant</p>
+
+    <label for="name">Participant ID <span class="hint">Stable nickname or code — use the same one every day</span></label>
+    <input type="text" id="name" name="name" required maxlength="80" placeholder="e.g. MWilliams or StudyID-07" autocomplete="nickname" />
+
+    <p class="section-title">Sleep (last night)</p>
+
+    <div class="row">
+      <label>Sleep duration (hours) <span class="val" id="sleepVal">7</span>
+        <span class="hint">Total sleep time, estimate is fine</span>
+      </label>
+      <input type="range" id="sleep" name="sleep_hours" min="0" max="12" step="0.5" value="7" />
+      <div class="scale-ends"><span>0 h</span><span>12 h</span></div>
+    </div>
+
+    <div class="row">
+      <label>Sleep quality (1–10) <span class="val" id="sleepQualityVal">5</span>
+        <span class="hint">Overall quality of last night’s sleep</span>
+      </label>
+      <input type="range" id="sleep_quality" name="sleep_quality" min="1" max="10" value="5" />
+      <div class="scale-ends"><span>1 very poor</span><span>10 excellent</span></div>
+    </div>
+
+    <p class="section-title">Today’s self-report (1–10)</p>
+
+    <div class="row">
+      <label>Energy / alertness <span class="val" id="energyVal">5</span>
+        <span class="hint">How energetic or alert you feel overall today</span>
+      </label>
+      <input type="range" id="energy" name="energy" min="1" max="10" value="5" />
+      <div class="scale-ends"><span>1 depleted</span><span>10 very alert</span></div>
+    </div>
+
+    <div class="row">
+      <label>Mood (valence) <span class="val" id="moodVal">5</span>
+        <span class="hint">Overall emotional tone today</span>
+      </label>
+      <input type="range" id="mood" name="mood" min="1" max="10" value="5" />
+      <div class="scale-ends"><span>1 very negative</span><span>10 very positive</span></div>
+    </div>
+
+    <div class="row">
+      <label>Stress <span class="val" id="stressVal">5</span>
+        <span class="hint">Overall stress load today</span>
+      </label>
+      <input type="range" id="stress" name="stress" min="1" max="10" value="5" />
+      <div class="scale-ends"><span>1 none / minimal</span><span>10 extreme</span></div>
+    </div>
+
+    <div class="row">
+      <label>Social connection (optional) <span class="val" id="socialVal">5</span>
+        <span class="hint">Felt connected vs isolated today</span>
+      </label>
+      <input type="range" id="social_connection" name="social_connection" min="1" max="10" value="5" />
+      <div class="scale-ends"><span>1 isolated</span><span>10 well connected</span></div>
+    </div>
+
+    <p class="section-title">Context (optional)</p>
+
+    <label for="unusual">Anything unusual today?</label>
+    <select id="unusual" name="unusual_day">
+      <option value="no" selected>No</option>
+      <option value="yes">Yes (illness, travel, major event, etc.)</option>
+    </select>
+
+    <label for="win">Positive note (optional)</label>
+    <input type="text" id="win" name="one_win" maxlength="200" placeholder="Optional brief positive event or win" />
+
+    <label for="next">Intended next action (optional)</label>
+    <input type="text" id="next" name="next_step" maxlength="200" placeholder="Optional concrete next step" />
+
+    <label for="notes">Notes (optional)</label>
+    <textarea id="notes" name="notes" maxlength="1000" placeholder="Optional free text (avoid sensitive IDs if possible)"></textarea>
+
+    <label class="checkrow">
+      <input type="checkbox" id="consent" name="consent_given" value="yes" required />
+      <span>I understand this is voluntary, not medical care, and I consent to submit this diary entry for the study lead’s research log.</span>
+    </label>
+
+    <button type="submit" id="submitBtn">Submit today’s entry</button>
     <p class="notice">
-      By sending, you agree this is voluntary, not medical care, and only for Michelle’s private project.
+      Form version 2.0 · Study lead: Michelle D. Williams ·
+      Technical delivery via form endpoint to the study inbox.
     </p>
   </form>
 
@@ -147,21 +244,30 @@
       el.addEventListener("input", sync);
       sync();
     }
-    bind("energy", "energyVal");
-    bind("mood", "moodVal");
-    bind("sleep", "sleepVal");
-    bind("stress", "stressVal");
+    [
+      ["energy", "energyVal"],
+      ["mood", "moodVal"],
+      ["sleep", "sleepVal"],
+      ["sleep_quality", "sleepQualityVal"],
+      ["stress", "stressVal"],
+      ["social_connection", "socialVal"],
+    ].forEach(([id, lab]) => bind(id, lab));
 
     document.getElementById("submitted_at_local").value = new Date().toISOString();
-    document.getElementById("timezone").value = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+    document.getElementById("timezone").value =
+      Intl.DateTimeFormat().resolvedOptions().timeZone || "";
 
     const form = document.getElementById("form");
     const btn = document.getElementById("submitBtn");
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
+      if (!document.getElementById("consent").checked) {
+        alert("Please confirm consent before submitting.");
+        return;
+      }
       btn.disabled = true;
-      btn.textContent = "Sending...";
+      btn.textContent = "Submitting…";
       document.getElementById("submitted_at_local").value = new Date().toISOString();
 
       try {
@@ -175,9 +281,9 @@
         document.getElementById("thanks").style.display = "block";
         window.scrollTo(0, 0);
       } catch (err) {
-        alert("Could not send. Check your connection and try again. If this is the first ever submission, Michelle may need to confirm the collector email once.");
+        alert("Could not send. Check your connection and try again.");
         btn.disabled = false;
-        btn.textContent = "Send check-in";
+        btn.textContent = "Submit today’s entry";
       }
     });
   </script>
