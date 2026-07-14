@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Daily Check-In</title>
+  <style>
+    :root {
+      --bg: #0f1419;
+      --card: #1a2332;
+      --text: #e8eef5;
+      --muted: #8b9bb0;
+      --accent: #3d9cf0;
+      --good: #3ecf8e;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, Segoe UI, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+      padding: 1.25rem;
+      max-width: 440px;
+      margin-inline: auto;
+    }
+    h1 { font-size: 1.4rem; margin: 0 0 0.35rem; }
+    .sub { color: var(--muted); font-size: 0.92rem; margin-bottom: 1.25rem; }
+    .card {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 1.1rem;
+      margin-bottom: 1rem;
+    }
+    label {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 0.35rem;
+    }
+    .val { float: right; color: var(--accent); font-weight: 600; }
+    input[type="range"] { width: 100%; }
+    input[type="text"], input[type="email"], textarea, select {
+      width: 100%;
+      background: #0d1218;
+      border: 1px solid #2a3a4d;
+      color: var(--text);
+      border-radius: 8px;
+      padding: 0.65rem 0.75rem;
+      font: inherit;
+      margin-bottom: 0.9rem;
+    }
+    textarea { min-height: 70px; resize: vertical; }
+    .row { margin-bottom: 0.9rem; }
+    button {
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+      padding: 0.85rem 1rem;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      background: var(--accent);
+      color: #041018;
+    }
+    button:disabled { opacity: 0.6; cursor: wait; }
+    .notice {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-top: 1rem;
+    }
+    .ok {
+      display: none;
+      background: #143528;
+      border: 1px solid var(--good);
+      color: var(--good);
+      border-radius: 10px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    .hp { position: absolute; left: -9999px; opacity: 0; height: 0; overflow: hidden; }
+  </style>
+</head>
+<body>
+  <h1>Daily Check-In</h1>
+  <p class="sub">
+    About 60 seconds. Optional. Not medical advice. You can stop anytime.
+    Data goes to Michelle for a small personal project only.
+  </p>
+
+  <div class="ok" id="thanks">
+    <strong>Got it — thank you.</strong><br />
+    Your check-in was sent. See you tomorrow.
+  </div>
+
+  <form class="card" id="form" action="https://formsubmit.co/ajax/chellecubed22@outlook.com" method="POST">
+    <!-- FormSubmit controls -->
+    <input type="hidden" name="_subject" value="Daily Check-In response" />
+    <input type="hidden" name="_template" value="table" />
+    <input type="hidden" name="_captcha" value="false" />
+    <input type="hidden" name="_honey" value="" />
+    <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" />
+
+    <label for="name">Your name or nickname</label>
+    <input type="text" id="name" name="name" required maxlength="80" placeholder="What should we call you?" />
+
+    <div class="row">
+      <label>Energy <span class="val" id="energyVal">5</span></label>
+      <input type="range" id="energy" name="energy" min="1" max="10" value="5" />
+    </div>
+    <div class="row">
+      <label>Mood <span class="val" id="moodVal">5</span></label>
+      <input type="range" id="mood" name="mood" min="1" max="10" value="5" />
+    </div>
+    <div class="row">
+      <label>Sleep last night (hours) <span class="val" id="sleepVal">7</span></label>
+      <input type="range" id="sleep" name="sleep_hours" min="0" max="12" step="0.5" value="7" />
+    </div>
+    <div class="row">
+      <label>Stress <span class="val" id="stressVal">5</span></label>
+      <input type="range" id="stress" name="stress" min="1" max="10" value="5" />
+    </div>
+
+    <label for="win">One win (optional)</label>
+    <input type="text" id="win" name="one_win" maxlength="200" placeholder="Something that went okay..." />
+
+    <label for="next">One useful next step</label>
+    <input type="text" id="next" name="next_step" required maxlength="200" placeholder="One concrete next action..." />
+
+    <label for="notes">Notes (optional)</label>
+    <textarea id="notes" name="notes" maxlength="1000" placeholder="Anything else..."></textarea>
+
+    <input type="hidden" name="submitted_at_local" id="submitted_at_local" />
+    <input type="hidden" name="timezone" id="timezone" />
+
+    <button type="submit" id="submitBtn">Send check-in</button>
+    <p class="notice">
+      By sending, you agree this is voluntary, not medical care, and only for Michelle’s private project.
+    </p>
+  </form>
+
+  <script>
+    function bind(id, labelId) {
+      const el = document.getElementById(id);
+      const lab = document.getElementById(labelId);
+      const sync = () => { lab.textContent = el.value; };
+      el.addEventListener("input", sync);
+      sync();
+    }
+    bind("energy", "energyVal");
+    bind("mood", "moodVal");
+    bind("sleep", "sleepVal");
+    bind("stress", "stressVal");
+
+    document.getElementById("submitted_at_local").value = new Date().toISOString();
+    document.getElementById("timezone").value = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+
+    const form = document.getElementById("form");
+    const btn = document.getElementById("submitBtn");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      btn.disabled = true;
+      btn.textContent = "Sending...";
+      document.getElementById("submitted_at_local").value = new Date().toISOString();
+
+      try {
+        const res = await fetch(form.action, {
+          method: "POST",
+          body: new FormData(form),
+          headers: { Accept: "application/json" },
+        });
+        if (!res.ok) throw new Error("send failed");
+        form.style.display = "none";
+        document.getElementById("thanks").style.display = "block";
+        window.scrollTo(0, 0);
+      } catch (err) {
+        alert("Could not send. Check your connection and try again. If this is the first ever submission, Michelle may need to confirm the collector email once.");
+        btn.disabled = false;
+        btn.textContent = "Send check-in";
+      }
+    });
+  </script>
+</body>
+</html>
