@@ -18,15 +18,17 @@ Participants answer the same brief items each day so patterns can be studied ove
 
 ---
 
-## What we ask (form v2.0)
+## What we ask (form v2.1)
 
 | Area | Items |
 |------|--------|
 | Participant | Stable **participant ID** (same nickname every day) |
+| **Location** | **City, state/region, country** (where you are today) |
 | Sleep | Duration (hours) + **quality** (1–10) |
 | Daytime self-report | Energy/alertness, mood valence, stress (1–10) |
 | Optional | Social connection, unusual-day flag, notes, next action |
 | Consent | Required acknowledgment (voluntary, not medical) |
+| Auto | Browser timezone + submit timestamp |
 
 ---
 
