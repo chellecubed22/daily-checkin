@@ -146,7 +146,7 @@
     <input type="hidden" name="_captcha" value="false" />
     <input type="hidden" name="_honey" value="" />
     <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" />
-    <input type="hidden" name="form_version" value="2.0-research-diary" />
+    <input type="hidden" name="form_version" value="2.1-research-diary" />
     <input type="hidden" name="submitted_at_local" id="submitted_at_local" />
     <input type="hidden" name="timezone" id="timezone" />
 
@@ -154,6 +154,21 @@
 
     <label for="name">Participant ID <span class="hint">Stable nickname or code — use the same one every day</span></label>
     <input type="text" id="name" name="name" required maxlength="80" placeholder="e.g. MWilliams or StudyID-07" autocomplete="nickname" />
+
+    <p class="section-title">Location (where you are today)</p>
+    <p class="sub" style="margin-top:-0.5rem;margin-bottom:0.75rem">
+      Used to group responses by region and match local weather context.
+      Approximate is fine. Not GPS — you type it.
+    </p>
+
+    <label for="city">City / town <span class="hint">Required — e.g. Kansas City</span></label>
+    <input type="text" id="city" name="city" required maxlength="80" placeholder="City or town" autocomplete="address-level2" />
+
+    <label for="region_state">State / province / region <span class="hint">Required — e.g. MO, Kansas, Ontario</span></label>
+    <input type="text" id="region_state" name="region_state" required maxlength="80" placeholder="State, province, or region" autocomplete="address-level1" />
+
+    <label for="country">Country <span class="hint">Required — e.g. United States</span></label>
+    <input type="text" id="country" name="country" required maxlength="80" placeholder="Country" autocomplete="country-name" value="United States" />
 
     <p class="section-title">Sleep (last night)</p>
 
