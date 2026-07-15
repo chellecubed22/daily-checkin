@@ -1,5 +1,8 @@
 # Daily Wellbeing Check-In
 
+**Study lead:** Michelle D. Williams (chellecubed22) · Alpha Resonance Foundation · https://chellecubed22.github.io/ (`chellecubed22`) · **Alpha Resonance Foundation**  
+**Home:** https://chellecubed22.github.io/  
+
 ### **[Open the check-in form →](https://chellecubed22.github.io/daily-checkin/)**
 
 https://chellecubed22.github.io/daily-checkin/
@@ -10,7 +13,7 @@ https://chellecubed22.github.io/daily-checkin/
 
 A **short voluntary daily research diary** for self-reported wellbeing.
 
-Participants answer the same brief items each day so patterns can be studied over time (sleep, energy, mood, stress, and optional context). Entries are for **personal / exploratory research** by the study lead—not clinical care.
+Participants answer the same brief items each day so patterns can be studied over time (sleep, energy, mood, stress, and optional context). Entries are for **personal / exploratory research** by Michelle D. Williams (study lead)—not clinical care.
 
 **Time:** about 1–2 minutes  
 **Device:** phone or computer  
@@ -68,7 +71,7 @@ This instrument is a **lightweight daily diary** suitable for:
 
 It is **not** presented as a validated clinical scale battery. Constructs are transparent 1–10 ratings plus sleep duration/quality.
 
-**Study lead:** Michelle D. Williams  
+**Study lead:** Michelle D. Williams (chellecubed22) · Alpha Resonance Foundation · https://chellecubed22.github.io/  
 **Contact:** chellecubed22@outlook.com  
 
 ---
